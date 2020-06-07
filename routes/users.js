@@ -22,7 +22,6 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log('here');
       return res.status(400).json({ errors: errors.array() });
     }
 
@@ -56,7 +55,7 @@ router.post(
         payload,
         config.jwtSecret,
         {
-          expiresIn: 360000, // 3600 = 1 hour (added some extra 0s for testing)
+          expiresIn: 3600000000, // 3600 = 1 hour (added some extra 0s for testing)
         },
         (err, token) => {
           if (err) throw err;

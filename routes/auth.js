@@ -2,8 +2,8 @@
 
 // GET = getting data from server - Example: getting things associated with a user
 // POST = posting data to server - Example: Filling out a form
-// PUT = update something already on server
-// DELETE = delete something from server
+// PUT = update something already on server - Example: changing user email address
+// DELETE = delete something from server - Example: removing user from db
 
 const express = require('express');
 const router = express.Router();
@@ -67,7 +67,7 @@ router.post(
         payload,
         config.jwtSecret,
         {
-          expiresIn: 3600, // 1 hour
+          expiresIn: 3600000000, // 1 hour
         },
         (err, token) => {
           if (err) throw err;
