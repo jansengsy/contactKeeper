@@ -47,7 +47,11 @@ const ContactState = (props) => {
     // Dispatch to the reducer
     dispatch({ type: ADD_CONTACT, payload: contact });
   };
+
   // Delete contact
+  const deleteContact = (id) => {
+    dispatch({ type: DELETE_CONTACT, payload: id });
+  };
 
   // Set current contact
 
@@ -64,6 +68,7 @@ const ContactState = (props) => {
       value={{
         contacts: state.contacts,
         addContact,
+        deleteContact,
       }}
     >
       {props.children}
