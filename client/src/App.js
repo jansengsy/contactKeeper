@@ -9,6 +9,7 @@ import './App.css';
 
 const App = () => {
   return (
+    // Everything exists inside of the contact state
     <ContactState>
       <Router>
         <Fragment className='App'>
