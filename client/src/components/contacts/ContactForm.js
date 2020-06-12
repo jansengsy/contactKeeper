@@ -1,9 +1,26 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ContactContext from '../../Context/Contact/contactContext';
 
 const ContactForm = () => {
   const contactContext = useContext(ContactContext);
 
+  // Pulling these in from contact state.
+  const { addContact, updateContact, clearCurrent, current } = contactContext;
+
+  useEffect(() => {
+    if (current !== null) {
+      setContact(current);
+    } else {
+      setContact({
+        name: '',
+        email: '',
+        phone: '',
+        type: 'personal',
+      });
+    }
+  }, [contactContext, current]); // Dependencies - So, when we set contactContext or current changes, this useEffect will fire
+
+  // contact = object, setContact = mutator for that object
   const [contact, setContact] = useState({
     name: '',
     email: '',
@@ -18,7 +35,12 @@ const ContactForm = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    contactContext.addContact(contact); // When form is submitted, it looks for this method
+    if (current === null) {
+      addContact(contact); // When form is submitted, it looks for this method
+    } else {
+      updateContact(contact);
+      clearCurrent();
+    }
 
     // Set the form object back to the defaults (aka blank)
     setContact({
@@ -29,9 +51,15 @@ const ContactForm = () => {
     });
   };
 
+  const clearAll = () => {
+    clearCurrent();
+  };
+
   return (
     <form onSubmit={onSubmit}>
-      <h2 className='text-primary'>Add Contact</h2>
+      <h2 className='text-primary'>
+        {current === null ? 'Add Contact' : 'Edit Contact'}
+      </h2>
       <input
         type='text'
         placeholder='Name'
@@ -74,10 +102,17 @@ const ContactForm = () => {
       <div>
         <input
           type='submit'
-          value='Add Contact'
+          value={current === null ? 'Add Contact' : 'Update Contact'}
           className='btn btn-primary btn-block'
         ></input>
       </div>
+      {current && ( // If we have a contact currently selected, show clear button
+        <div>
+          <button className='btn btn-danger btn-block' onClick={clearAll}>
+            Clear
+          </button>
+        </div>
+      )}
     </form>
   );
 };
