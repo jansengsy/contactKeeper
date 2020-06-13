@@ -39,6 +39,20 @@ export default (state, action) => {
         ...state,
         current: null,
       };
+    case FILTER_CONTACT:
+      return {
+        ...state,
+        // Filter all contacts to see if they contain the filter text
+        filtered: state.contacts.filter((contact) => {
+          const regex = new RegExp(`${action.payload}`, 'gi'); // gi = global, case insensitve
+          return contact.name.match(regex) || contact.email.match(regex); // Add this contact to the filtered array if the name or email match the regex
+        }),
+      };
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filter: null,
+      };
     default:
       return state;
   }
