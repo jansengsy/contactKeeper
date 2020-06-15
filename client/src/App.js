@@ -5,24 +5,29 @@ import { Home } from './components/pages/Home';
 import { About } from './components/pages/About';
 
 import ContactState from './Context/Contact/ContactState';
+import AuthState from './Context/auth/AuthState';
 import './App.css';
+import Register from './components/auth/Register';
 
 const App = () => {
   return (
     // Everything exists inside of the contact state
-    <ContactState>
-      <Router>
-        <Fragment className='App'>
-          <NavBar />
-          <div className='container'>
-            <Switch>
-              <Route exact path='/' component={Home} />
-              <Route exact path='/about' component={About} />
-            </Switch>
-          </div>
-        </Fragment>
-      </Router>
-    </ContactState>
+    <AuthState>
+      <ContactState>
+        <Router>
+          <Fragment className='App'>
+            <NavBar />
+            <div className='container'>
+              <Switch>
+                <Route exact path='/' component={Home} />
+                <Route exact path='/about' component={About} />
+                <Route exact path='/register' component={Register} />
+              </Switch>
+            </div>
+          </Fragment>
+        </Router>
+      </ContactState>
+    </AuthState>
   );
 };
 
