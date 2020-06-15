@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Register = () => {
+export const Register = () => {
   const [user, setUser] = useState({
     name: '',
     email: '',
