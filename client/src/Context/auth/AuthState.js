@@ -42,7 +42,9 @@ const AuthState = (props) => {
         user: state.user,
         error: state.error,
       }}
-    ></AuthContext.Provider>
+    >
+      {props.children}
+    </AuthContext.Provider>
   );
 };
 
