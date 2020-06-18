@@ -31,7 +31,7 @@ router.post(
       let user = await User.findOne({ email });
 
       if (user) {
-        return res.status(400).json({ msg: 'User already exists' });
+        return res.status(400).json({ msg: 'User already exists' }); // This is sent from AuthState.js, line 46 - note when sending need to match 'msg'
       }
 
       user = new User({

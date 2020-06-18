@@ -1,10 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AlertContext from '../../Context/alert/alertContext';
+import AuthContext from '../../Context/auth/authContext';
 
 export const Register = () => {
   const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
+  const { register, error, clearErrors } = authContext;
+
+  useEffect(() => {
+    if (error !== null) {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+  }, [error]);
 
   const [user, setUser] = useState({
     name: '',
@@ -26,8 +36,11 @@ export const Register = () => {
     } else if (password !== password2) {
       setAlert('Passwords do not match', 'danger');
     } else {
-      setAlert('User added', 'success');
-      console.log('Registered');
+      register({
+        name,
+        email,
+        password,
+      });
     }
   };
 
