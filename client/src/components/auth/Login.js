@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import AuthContext from '../../Context/auth/authContext';
 
 export const Login = () => {
+  const authContext = useContext(AuthContext);
+
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
 
   const { email, password } = user;
+  const { login } = authContext;
 
   const onChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -14,7 +18,10 @@ export const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('Login submit');
+    login({
+      email,
+      password,
+    });
   };
 
   return (
