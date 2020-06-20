@@ -2,18 +2,12 @@ import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../Context/auth/authContext';
 import AlertContext from '../../Context/alert/alertContext';
 
-export const Login = (props) => {
+const Login = (props) => {
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
 
-  const [user, setUser] = useState({
-    email: '',
-    password: '',
-  });
-
-  const { email, password } = user;
-  const { login, isAuthenticated, error, clearErrors } = authContext;
   const { setAlert } = alertContext;
+  const { login, isAuthenticated, error, clearErrors } = authContext;
 
   // Checking to see if we're authenticated - so we don't go to this page if we're already authenticated
   useEffect(() => {
@@ -21,12 +15,19 @@ export const Login = (props) => {
       props.history.push('/');
     }
     // Checking for authentication error
-    if (error !== null) {
+    if (error === 'Invalid Credentials') {
       setAlert(error, 'danger');
       clearErrors();
     }
     // eslint-disable-next-line
   }, [error, isAuthenticated, props.history]);
+
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
+
+  const { email, password } = user;
 
   const onChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
