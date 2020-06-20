@@ -1,8 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import AuthContext from '../../Context/auth/authContext';
+import AlertContext from '../../Context/alert/alertContext';
 
-export const Login = () => {
+export const Login = (props) => {
   const authContext = useContext(AuthContext);
+  const alertContext = useContext(AlertContext);
 
   const [user, setUser] = useState({
     email: '',
@@ -10,7 +12,21 @@ export const Login = () => {
   });
 
   const { email, password } = user;
-  const { login } = authContext;
+  const { login, isAuthenticated, error, clearErrors } = authContext;
+  const { setAlert } = alertContext;
+
+  // Checking to see if we're authenticated - so we don't go to this page if we're already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push('/');
+    }
+    // Checking for authentication error
+    if (error !== null) {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+    // eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const onChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -18,10 +34,14 @@ export const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    login({
-      email,
-      password,
-    });
+    if (email === '' || password === '') {
+      setAlert('Please enter all fields', 'danger');
+    } else {
+      login({
+        email,
+        password,
+      });
+    }
   };
 
   return (
@@ -37,6 +57,7 @@ export const Login = () => {
             name='email'
             value={email}
             onChange={onChange}
+            required
           ></input>
         </div>
         <div className='form-group'>
@@ -46,13 +67,16 @@ export const Login = () => {
             name='password'
             value={password}
             onChange={onChange}
+            required
           ></input>
         </div>
-        <input
+        <button
           tpye='submit'
           value='Login'
           className='btn btn-primary btn-block'
-        ></input>
+        >
+          Login
+        </button>
       </form>
     </div>
   );
