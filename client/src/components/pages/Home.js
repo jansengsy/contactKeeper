@@ -10,8 +10,9 @@ export const Home = () => {
 
   useEffect(() => {
     loadUser();
-    // eslint-disable-next-line
+    /*eslint-disable */
   }, {});
+  /*eslint-enable */
 
   return (
     <div className='grid-2'>
