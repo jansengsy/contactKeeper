@@ -1,7 +1,7 @@
 FROM node:10
 
-RUN mkdir -p /srv/server
-WORKDIR /srv/server
+RUN mkdir -p /src/server
+WORKDIR /src/server
 
 COPY package*.json ./
 
