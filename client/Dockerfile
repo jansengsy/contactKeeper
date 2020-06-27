@@ -1,7 +1,7 @@
 FROM node:10
 
-RUN mkdir -p /srv/app/client
-WORKDIR /srv/app/client
+RUN mkdir -p /src/app/
+WORKDIR /src/app/
 
 COPY package*.json ./
 
